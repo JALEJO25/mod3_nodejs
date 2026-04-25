@@ -4,19 +4,32 @@ export default class NoteController {
   }
 
   createNote = async (req, res) => {
-    const data = req.body;
+    // 1. Extraemos los datos del cuerpo
+    const { title, content, isPrivate, password } = req.body;
 
-    if (req.file) data.imageurl = "/uploads/" + req.file.filename;
+    // 2. Construimos el objeto de datos con los nombres EXACTOS del modelo
+    const noteData = {
+      title,
+      content,
+      isPrivate: isPrivate === 'true', // Convertimos el string de form-data a booleano
+      password,
+      userId: "user_123", // El campo que Mongoose te reclama
+    };
 
-    data.userId = "user_123"; //TODO:  LUEGO OBTENER EL USUARIO DE LA SESION O TOKEN
-    try {
-      const note = await this.noteService.createNote(data);
-
-      res.status(201).json(note); // 201 Created
-    } catch (error) {
-      res.status(400).json({ error: error.message });
+    // 3. Si hay un archivo, usamos el nombre correcto: imageUrl (con U mayúscula)
+    if (req.file) {
+      noteData.imageUrl = "/uploads/" + req.file.filename;
     }
-  };
+
+    try {
+      // 4. Enviamos el objeto limpio al servicio
+      const note = await this.noteService.createNote(noteData);
+      res.status(201).json(note);
+    } catch (error) {
+    console.log("DETALLE DEL ERROR:", error); // Esto imprimirá el objeto de error completo
+    res.status(400).json({ error: error.message });
+}
+};
 
   getNotesByUserId = async (req, res) => {
     const userId = "user_123";

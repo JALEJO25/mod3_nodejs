@@ -3,13 +3,13 @@ import express from 'express';
 import cors from 'cors';
 import 'express-async-errors';
 import morgan from 'morgan';
-import { loggerMiddleware } from './presentation/middlewares/logger,middleware.js';
+import { loggerMiddleware } from './presentation/middlewares/logger.middleware.js';
 import noteRoutes from './presentation/routes/note.routes.js';
-import { connectMongo } from './infrastructure/database/mongo/connection.js';
+//import { connectMongo } from './infrastructure/database/mongo/connection.js';
 import { connectMysql } from './infrastructure/database/mysql/connection.js';
  
-await connectMongo();
-//await connectMysql();
+//await connectMongo();
+await connectMysql();
  
 const app = express();
  
