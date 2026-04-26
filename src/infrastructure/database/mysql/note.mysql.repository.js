@@ -13,7 +13,11 @@ export default class NoteMySQLRepository {
         });
         return note.toJSON();
     }
-
+    
+    async getById(id) {
+    const note = await NoteModel.findByPk(id);
+    return note ? note.toJSON() : null;
+}
     
 
     async findByUserId(userId) {

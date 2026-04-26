@@ -42,4 +42,14 @@ export default class NoteController {
       res.status(404).json({ error: error.message });
     }
   };
+
+  getById = async (req, res) => {
+    try {
+        const { id } = req.params; // Captura el :id de la ruta
+        const note = await this.noteService.getNoteById(id);
+        res.status(200).json(note);
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+};
 }

@@ -15,4 +15,12 @@ export default class NoteService {
 
     return await this.noteRepository.save(note);
   }
+
+  async getNoteById(id){
+    const note= await this.noteRepository.getById(id);
+    if(!note){
+      throw new Error(`La nota con Id ${id} no existe`);
+    }
+    return note;
+  }
 }
