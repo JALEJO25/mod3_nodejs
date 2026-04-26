@@ -19,5 +19,7 @@ const router = Router();
 //definir las rutas para las notas 
 router.post("/", upload.single('image'), noteController.createNote);
 router.get("/:id", noteController.getById);
+router.delete('/:id', noteController.delete);
+router.put('/:id', upload.single('image'), noteController.update);
 
 export default router;

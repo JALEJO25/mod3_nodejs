@@ -23,4 +23,24 @@ export default class NoteService {
     }
     return note;
   }
+
+  async deleteNote(id) {
+    const deleted = await this.noteRepository.delete(id);
+    if (!deleted) {
+        throw new Error(`No se pudo eliminar: La nota con ID ${id} no existe.`);
+    }
+    return { message: "Nota eliminada correctamente" };
+  }
+  
+
+  async updateNote(id, data) {
+    const updatedNote = await this.noteRepository.update(id, data);
+    if (!updatedNote) {
+        throw new Error("No se pudo actualizar: La nota no existe.");
+    }
+    return updatedNote;
+  }
+
+
+
 }
