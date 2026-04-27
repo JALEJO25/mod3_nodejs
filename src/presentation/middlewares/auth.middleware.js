@@ -3,7 +3,7 @@ import JwtService from "../../infrastructure/security/jwt.service.js";
 export const authMiddleware =(req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return res.status(401).json({ error: "Authorization header missing or invalid" });
+        return res.status(401).json({ error: "Access denied. No authorization token provided." });
     }
     const token = authHeader.split(" ")[1];
     try {

@@ -2,6 +2,9 @@ import { Router } from "express";
 import NoteController from "../controllers/note.controller.js";
 import NoteService from "../../application/use-cases/note.service.js";
 import  upload  from "../middlewares/upload.middleware.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { roleMiddleware } from "../middlewares/role.middleware.js";
+
 
 //aqui definiremos que base de datos usar para las notas, en este caso MongoDB
 import NoteMongoRepository from "../../infrastructure/database/mongo/note.mongo.repository.js";
@@ -19,7 +22,9 @@ const router = Router();
 //definir las rutas para las notas 
 router.post("/", upload.single('image'), noteController.createNote);
 router.get("/:id", noteController.getById);
-router.delete('/:id', noteController.delete);
-router.put('/:id', upload.single('image'), noteController.update);
+
+
+router.delete('/:id', authMiddleware, noteController.delete);
+router.put('/:id', authMiddleware, upload.single('image'), noteController.update);
 
 export default router;
