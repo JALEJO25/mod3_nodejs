@@ -27,4 +27,81 @@ router.get("/:id", noteController.getById);
 router.delete('/:id', authMiddleware, noteController.delete);
 router.put('/:id', authMiddleware, upload.single('image'), noteController.update);
 
+/**
+ * @swagger
+ * tags:
+ *   name: Notes
+ *   description: Gestión avanzada de notas con imágenes y roles
+ */
+
+/**
+ * @swagger
+ * /notes:
+ *   post:
+ *     summary: Crear una nueva nota con imagen
+ *     tags: [Notes]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required: [title, content]
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: "Mi Tarea de Node.js"
+ *               content:
+ *                 type: string
+ *                 example: "Finalizar la documentación de Swagger hoy."
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Nota creada exitosamente
+ */
+router.post("/", authMiddleware, noteController.createNote);
+
+/**
+ * @swagger
+ * /notes:
+ *   get:
+ *     summary: Obtener todas las notas del usuario (MySQL)
+ *     tags: [Notes]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de notas obtenida exitosamente
+ */
+router.get("/", authMiddleware, noteController.getNotesByUserId);
+
+/**
+ * @swagger
+ * /notes/{id}:
+ *   delete:
+ *     summary: Eliminar una nota (Solo Admins)
+ *     tags: [Notes]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Nota eliminada
+ *       403:
+ *         description: Acceso denegado (Requiere admin)
+ */
+
+
+
+
 export default router;
+
