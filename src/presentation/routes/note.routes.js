@@ -31,7 +31,7 @@ router.put('/:id', authMiddleware, upload.single('image'), noteController.update
  * @swagger
  * tags:
  *   name: Notes
- *   description: Gestión avanzada de notas con imágenes y roles
+ *   description: Gestión avanzada de notas con imágenes y roles / by Joel Alejo
  */
 
 /**
