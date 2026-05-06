@@ -5,7 +5,7 @@ export default class NoteController {
 
   createNote = async (req, res) => {
     // 1. Extraemos los datos del cuerpo
-    const { title, content, isPrivate, password } = req.body;
+    const { title, content, isPrivate, password, categoryId } = req.body;
 
     // 2. Construimos el objeto de datos con los nombres EXACTOS del modelo
     const noteData = {
@@ -14,6 +14,7 @@ export default class NoteController {
       isPrivate: isPrivate === 'true', // Convertimos el string de form-data a booleano
       password,
       userId: "user_123", // El campo que Mongoose te reclama
+      categoryId
     };
 
     // 3. Si hay un archivo, usamos el nombre correcto: imageUrl (con U mayúscula)

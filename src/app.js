@@ -9,6 +9,8 @@ import authRoutes from './presentation/routes/auth.routes.js';
 import { connectMongo } from './infrastructure/database/mongo/connection.js';
 import { connectMysql } from './infrastructure/database/mysql/connection.js';
 import { setupSwagger } from './infrastructure/config/swagger.config.js';
+import { Category } from './infrastructure/database/mysql/category.model.js';
+import categoryRoutes from './presentation/routes/category.routes.js';
  
 await connectMongo();
 await connectMysql();
@@ -24,6 +26,7 @@ app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/notes',noteRoutes);
+app.use('/api/v1/categories', categoryRoutes);
 
 // Agrega esto aquídcss:
 setupSwagger(app);
