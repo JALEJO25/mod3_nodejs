@@ -43,4 +43,10 @@ export default class NoteMySQLRepository {
     async findByUserId(userId) {
         return await NoteModel.findAll({ where: { userId } });
     }
+
+
+
+    
 }
+
+export const noteRepository = new NoteMySQLRepository();
