@@ -8,7 +8,7 @@ export default class NoteService {
 
   async createNote(data) {
     if (!data.title || !data.content) {
-      throw new Error("Title and content are required");
+      throw new Error("El titulo es obligatorio");
     }
 
     const note = new NoteEntity(data);

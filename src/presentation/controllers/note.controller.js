@@ -1,3 +1,5 @@
+import { noteRepository } from '../../infrastructure/database/mysql/note.mysql.repository.js';
+
 export default class NoteController {
   constructor(noteService) {
     this.noteService = noteService;
@@ -5,7 +7,7 @@ export default class NoteController {
 
   createNote = async (req, res) => {
     // 1. Extraemos los datos del cuerpo
-    const { title, content, isPrivate, password } = req.body;
+    const { title, content, isPrivate, password, categoryId } = req.body;
 
     // 2. Construimos el objeto de datos con los nombres EXACTOS del modelo
     const noteData = {
@@ -14,6 +16,7 @@ export default class NoteController {
       isPrivate: isPrivate === 'true', // Convertimos el string de form-data a booleano
       password,
       userId: "user_123", // El campo que Mongoose te reclama
+      categoryId
     };
 
     // 3. Si hay un archivo, usamos el nombre correcto: imageUrl (con U mayúscula)
@@ -81,3 +84,29 @@ export default class NoteController {
 };
 
 }
+
+export const getPublicNote = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        // Buscamos la nota en el repositorio
+        const note = await noteRepository.getById(id);
+
+        if (!note) {
+            return res.status(404).json({ message: "Nota no encontrada" });
+        }
+
+        // REQUISITO: Denegar acceso si es privada
+        if (note.isPrivate) {
+            return res.status(403).json({ 
+                message: "Acceso denegado: Esta nota es privada y requiere autenticación." 
+            });
+        }
+
+        // Si es pública, la entregamos
+        return res.status(200).json(note);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+};
+

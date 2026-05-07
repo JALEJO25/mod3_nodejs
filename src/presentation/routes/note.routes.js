@@ -5,6 +5,7 @@ import  upload  from "../middlewares/upload.middleware.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { roleMiddleware } from "../middlewares/role.middleware.js";
 
+import { getPublicNote} from '../controllers/note.controller.js';
 
 //aqui definiremos que base de datos usar para las notas, en este caso MongoDB
 import NoteMongoRepository from "../../infrastructure/database/mongo/note.mongo.repository.js";
@@ -26,6 +27,8 @@ router.get("/:id", noteController.getById);
 
 router.delete('/:id', authMiddleware, noteController.delete);
 router.put('/:id', authMiddleware, upload.single('image'), noteController.update);
+
+router.get('/:id/public', getPublicNote);
 
 /**
  * @swagger

@@ -1,4 +1,4 @@
-import NoteModel from "./note.model.js";
+import {NoteModel} from "./note.model.js";
 
 export default class NoteMySQLRepository {
     async save(noteEntity) {
@@ -9,7 +9,8 @@ export default class NoteMySQLRepository {
             imageUrl: noteEntity.imageUrl,
             userId: noteEntity.userId,
             isPrivate: noteEntity.isPrivate,
-            password: noteEntity.password
+            password: noteEntity.password,
+            categoryId: noteEntity.categoryId
         });
         return note.toJSON();
     }
@@ -42,4 +43,10 @@ export default class NoteMySQLRepository {
     async findByUserId(userId) {
         return await NoteModel.findAll({ where: { userId } });
     }
+
+
+
+    
 }
+
+export const noteRepository = new NoteMySQLRepository();
